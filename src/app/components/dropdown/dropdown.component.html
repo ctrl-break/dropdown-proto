@@ -1,0 +1,9 @@
+<div class="actions">
+  <input type="text" placeholder="new" [mDropdown]="content" />
+</div>
+
+<ng-template #content>
+  <div class="dropdown">
+    <ng-content></ng-content>
+  </div>
+</ng-template>

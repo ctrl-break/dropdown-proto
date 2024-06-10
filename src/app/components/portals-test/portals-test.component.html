@@ -1,0 +1,73 @@
+<div class="test-portals">
+  <button (click)="addPortal(test)">test</button>
+</div>
+
+<ng-template #test>
+  <div
+    style="
+      position: absolute;
+      top: 77px;
+      left: 88px;
+      background-color: blue;
+      padding: 20px;
+    "
+  >
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam eius et
+    repellat odio temporibus vitae, perspiciatis placeat sunt id ea amet
+    reprehenderit delectus voluptates. Veniam cum facilis delectus ducimus iure.
+  </div>
+</ng-template>
+
+<div class="lorems">
+  <div>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia eum
+    voluptatem nam odit aut omnis repellendus quidem aperiam nihil officiis
+    minus modi magni cum quaerat tenetur facere, error suscipit ipsum?
+  </div>
+  <div>
+    Similique expedita accusamus veritatis unde facilis architecto delectus
+    atque explicabo dolorum rem. Voluptatem vel accusantium, veritatis provident
+    dicta officiis, corrupti quam incidunt nobis quaerat quia? Cum nemo
+    doloribus quidem error.
+  </div>
+  <div>
+    Quo, beatae! Rem reiciendis numquam quos unde libero est cum harum laborum
+    vero ullam reprehenderit vel magnam cupiditate quasi, voluptatem consequatur
+    repellat quae vitae enim perferendis fuga sed voluptate. Optio.
+  </div>
+
+  <div class="test-portals">
+    <button (click)="addPortal(test2)">test2</button>
+  </div>
+
+  <ng-template #test2 let-close>
+    <div
+      style="
+        position: absolute;
+        top: 177px;
+        left: 188px;
+        background-color: aqua;
+        padding: 20px;
+      "
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam eius et
+      repellat odio temporibus vitae, perspiciatis placeat sunt id ea amet
+      reprehenderit delectus voluptates. Veniam cum facilis delectus ducimus
+      iure.
+
+      <button (click)="close()">close</button>
+    </div>
+  </ng-template>
+
+  <div>
+    Excepturi doloremque nisi facilis natus sit aperiam repellendus quos tenetur
+    consequuntur dolorem nemo repudiandae voluptate magnam incidunt, praesentium
+    iusto unde obcaecati repellat. Velit, corrupti. Consectetur facilis totam
+    excepturi vero necessitatibus!
+  </div>
+  <div>
+    Omnis beatae laborum repellendus, est sint natus, veritatis quasi excepturi,
+    alias autem dolor. Natus, id ad eligendi culpa nulla voluptatem, dicta
+    corrupti delectus ipsum eaque consequatur. Eos unde saepe totam.
+  </div>
+</div>

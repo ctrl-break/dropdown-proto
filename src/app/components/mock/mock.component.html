@@ -1,0 +1,116 @@
+<p>mock works!</p>
+
+<div class="container">
+  <p>
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus
+    fuga suscipit, quod similique alias sequi aspernatur impedit possimus sunt
+    molestias ducimus tempore minus hic iste non facere dolores consequatur?
+  </p>
+  <button [appDropdownTrigger]="lorem1">test</button>
+
+  <ng-template #lorem1>
+    <p style="background-color: red">
+      Vero sint facilis at doloribus optio harum error sed, vel impedit, est a
+      sapiente explicabo amet eius ex aut id cum commodi et consectetur odit
+      doloremque laboriosam iure ipsam! Modi?
+    </p>
+  </ng-template>
+  <p>
+    Facilis eos quia, ratione architecto autem unde in alias, animi fuga
+    reprehenderit adipisci et vitae. Deleniti nulla fugit, quibusdam voluptates
+    repudiandae eligendi eos nesciunt pariatur ducimus, harum voluptatem veniam
+    ea.
+  </p>
+  <p>
+    Tenetur quos laborum repellendus eveniet odit veniam alias qui blanditiis
+    assumenda nihil dolore asperiores aliquam id aut eos iure, repudiandae
+    consequatur quo culpa temporibus similique, corrupti repellat debitis? Ipsa,
+    aliquam?
+  </p>
+  <p>
+    Quia illum perspiciatis quasi voluptatem, eum molestiae. Delectus sunt alias
+    sit quos vitae facilis blanditiis excepturi, modi cumque ipsum autem
+    voluptatum illum mollitia saepe nulla laborum ab nobis ducimus. Explicabo?
+  </p>
+  <p>
+    Architecto, eius eos placeat tenetur, consequuntur modi hic similique quo
+    accusantium accusamus alias, ipsam nam atque deleniti at. Excepturi
+    necessitatibus eos tempora minus quas labore nostrum alias quisquam animi
+    ducimus!
+  </p>
+  <p>
+    Architecto totam autem a, in aperiam id blanditiis illo minima laborum ipsa
+    debitis voluptates quisquam, at ipsam ipsum, consequuntur necessitatibus
+    odio voluptas suscipit accusantium assumenda aut sapiente? Repudiandae, quo
+    nam.
+  </p>
+
+  <button [appDropdownTrigger]="lorem">test</button>
+
+  <ng-template #lorem>
+    <p style="background-color: aqua">
+      Vero sint facilis at doloribus optio harum error sed, vel impedit, est a
+      sapiente explicabo amet eius ex aut id cum commodi et consectetur odit
+      doloremque laboriosam iure ipsam! Modi?
+    </p>
+  </ng-template>
+
+  <p>
+    Totam minima in saepe quia? Exercitationem nulla, blanditiis nostrum
+    delectus placeat ut quaerat dolores libero esse eos earum consectetur quam
+    mollitia sit iusto officiis doloribus quae magni error recusandae
+    reprehenderit!
+  </p>
+  <p>
+    Commodi deleniti nihil dignissimos eius odit nulla cupiditate omnis
+    reprehenderit earum eos et doloribus, obcaecati quam. Eum, culpa hic
+    consequuntur molestiae fugiat iure enim aut officiis recusandae quod libero
+    accusamus.
+  </p>
+  <p>
+    Laboriosam voluptatem saepe aspernatur. Vitae reiciendis blanditiis
+    dignissimos eaque omnis. Magni rerum, fugiat laboriosam veritatis nemo quod
+    suscipit aut provident obcaecati quaerat recusandae in hic, exercitationem
+    unde ad eligendi placeat.
+  </p>
+
+  <input type="text" [appDropdownTrigger]="menu" />
+
+  <ng-template #menu>
+    <div class="item" (click)="chooseMenu($event)">12</div>
+    <div class="item" (click)="chooseMenu($event)">23</div>
+    <div class="item" (click)="chooseMenu($event)">445</div>
+  </ng-template>
+
+  <!-- <button [appDropdownTrigger]="lorem2">test</button>
+
+  <ng-template #lorem2>
+    <p>
+      1111111Vero sint facilis at doloribus optio harum error sed, vel impedit,
+      est a sapiente explicabo amet eius ex aut id cum commodi et consectetur
+      odit doloremque laboriosam iure ipsam! Modi?
+    </p>
+    <p>
+      Vero sint facilis at doloribus optio harum error sed, vel impedit, est a
+      sapiente explicabo amet eius ex aut id cum commodi et consectetur odit
+      doloremque laboriosam iure ipsam! Modi?
+    </p>
+  </ng-template> -->
+</div>
+
+<!-- <app-dropdown>
+  <p>
+    Commodi deleniti nihil dignissimos eius odit nulla cupiditate omnis
+    reprehenderit earum eos et doloribus, obcaecati quam. Eum, culpa hic
+    consequuntur molestiae fugiat iure enim aut officiis recusandae quod libero
+    accusamus.
+  </p>
+</app-dropdown>
+
+<p>
+  Laboriosam voluptatem saepe aspernatur. Vitae reiciendis blanditiis
+  dignissimos eaque omnis. Magni rerum, fugiat laboriosam veritatis nemo quod
+  suscipit aut provident obcaecati quaerat recusandae in hic, exercitationem
+  unde ad eligendi placeat.
+</p>
+<app-dropdown>5445654</app-dropdown> -->

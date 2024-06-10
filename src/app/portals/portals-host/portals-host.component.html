@@ -1,0 +1,15 @@
+<div class="content" #container>
+  <ng-content></ng-content>
+</div>
+
+<ng-container *ngIf="portals$ | async as portals">
+  {{ portals.length }}
+  <ng-container *ngFor="let portal of portals">
+    <ng-template
+      *ngTemplateOutlet="
+        portal;
+        context: { $implicit: closePortal.bind(this, portal) }
+      "
+    ></ng-template>
+  </ng-container>
+</ng-container>
