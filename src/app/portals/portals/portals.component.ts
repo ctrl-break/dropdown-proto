@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -12,20 +11,22 @@ import {
   Portals,
 } from '../../services/portal-bridge.service';
 import { PortalService } from 'src/app/services/portal.service';
+import { PortalModule } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-portals',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PortalModule],
   templateUrl: './portals.component.html',
   styleUrls: ['./portals.component.scss'],
 })
 export class PortalsComponent implements AfterViewInit {
-  @ViewChild('portalsHost') el!: ElementRef<HTMLElement>;
+  @ViewChild('host', { static: true }) host!: Element;
 
   portals = inject(PortalService);
+  portals$ = this.portals.portals$;
 
   ngAfterViewInit(): void {
-    this.portals.setPortalHost(this.el.nativeElement);
+    this.portals.setHost(this.host);
   }
 }

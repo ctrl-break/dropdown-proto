@@ -1,2 +1,10 @@
 <ng-content></ng-content>
-<div class="portals-host" #portalsHost></div>
+
+<div #portalHost>
+  <ng-container *ngIf="portals$ | async as portals">
+    {{ portals.length }}
+    <ng-container *ngFor="let portal of portals">
+      <ng-template [cdkPortalOutlet]="portal"></ng-template>
+    </ng-container>
+  </ng-container>
+</div>

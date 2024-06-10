@@ -28,7 +28,7 @@ import { PortalService } from 'src/app/services/portal.service';
   styleUrls: ['./mock.component.scss'],
 })
 export class MockComponent {
-  portalService = inject(PortalService);
+  // portalService = inject(PortalService);
   // viewContainerRef = inject(ViewContainerRef);
   // @ViewChild('content', { static: true }) content!: TemplateRef<unknown>;
   // ngAfterViewInit(): void {
@@ -41,9 +41,8 @@ export class MockComponent {
   //   );
   //   this.portalService.setPortal(templatePortal);
   // }
-
-  chooseMenu(e: Event) {
-    console.log(e);
-    this.portalService.detach();
-  }
+  // chooseMenu(e: Event) {
+  //   console.log(e);
+  //   this.portalService.detach();
+  // }
 }

@@ -25,45 +25,45 @@ export class DropdownByClickDirective {
     private appPortalService: PortalService
   ) {}
 
-  @HostListener('click', ['$event'])
-  toggleDropdown(event: MouseEvent) {
-    event.stopPropagation();
-    if (this.portal) {
-      this.closeDropdown();
-    } else {
-      this.openDropdown();
-    }
-  }
+  // @HostListener('click', ['$event'])
+  // toggleDropdown(event: MouseEvent) {
+  //   event.stopPropagation();
+  //   if (this.portal) {
+  //     this.closeDropdown();
+  //   } else {
+  //     this.openDropdown();
+  //   }
+  // }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (
-      this.portal &&
-      !this.elementRef.nativeElement.contains(event.target) &&
-      !document.querySelector('.portals-host')?.contains(event.target as Node)
-    ) {
-      this.closeDropdown();
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: MouseEvent) {
+  //   if (
+  //     this.portal &&
+  //     !this.elementRef.nativeElement.contains(event.target) &&
+  //     !document.querySelector('.portals-host')?.contains(event.target as Node)
+  //   ) {
+  //     this.closeDropdown();
+  //   }
+  // }
 
-  @HostListener('document:keydown.escape')
-  onEscape() {
-    if (this.portal) {
-      this.closeDropdown();
-    }
-  }
+  // @HostListener('document:keydown.escape')
+  // onEscape() {
+  //   if (this.portal) {
+  //     this.closeDropdown();
+  //   }
+  // }
 
-  private openDropdown() {
-    this.portal = new TemplatePortal(this.templateRef, this.viewContainerRef);
-    this.appPortalService.attachTemplatePortal(this.portal);
-  }
+  // private openDropdown() {
+  //   this.portal = new TemplatePortal(this.templateRef, this.viewContainerRef);
+  //   this.appPortalService.attachTemplatePortal(this.portal);
+  // }
 
-  private closeDropdown() {
-    this.appPortalService.detach();
-    this.portal = null;
-  }
+  // private closeDropdown() {
+  //   this.appPortalService.detach();
+  //   this.portal = null;
+  // }
 
-  ngOnDestroy() {
-    this.closeDropdown();
-  }
+  // ngOnDestroy() {
+  //   this.closeDropdown();
+  // }
 }

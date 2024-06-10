@@ -1,11 +1,12 @@
 import { Component, TemplateRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PortalsManagerService } from 'src/app/services/portals-manager.service';
+import { DropdownComponent } from '../dropdown/dropdown.component';
 
 @Component({
   selector: 'app-portals-test',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DropdownComponent],
   templateUrl: './portals-test.component.html',
   styleUrls: ['./portals-test.component.scss'],
 })

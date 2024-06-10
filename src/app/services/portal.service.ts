@@ -1,36 +1,86 @@
-import { DomPortalOutlet, TemplatePortal } from '@angular/cdk/portal';
 import {
-  ApplicationRef,
-  ComponentFactoryResolver,
+  DomPortal,
+  DomPortalOutlet,
+  Portal,
+  TemplatePortal,
+} from '@angular/cdk/portal';
+import {
+  ElementRef,
   Injectable,
   Injector,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PortalService {
-  portalHost: DomPortalOutlet | undefined;
-  portals: Map<number, HTMLElement> = new Map();
-  counter = 1;
+  private portalHost: DomPortalOutlet | null = null;
+  private portals: Portal<unknown>[] = [];
+  private portalsSubject: BehaviorSubject<Portal<unknown>[]> =
+    new BehaviorSubject<Portal<unknown>[]>([]);
 
   constructor() {}
 
-  setPortalHost(element: HTMLElement) {
-    this.portalHost = new DomPortalOutlet(element);
+  get portals$(): Observable<Portal<unknown>[]> {
+    return this.portalsSubject.asObservable();
   }
 
-  attachTemplatePortal(templatePortal: TemplatePortal<unknown>) {
-    if (this.portalHost) {
-      const view = this.portalHost.attachTemplatePortal(templatePortal);
-      this.portals.set(this.counter, view.rootNodes[0] as HTMLElement);
-      this.counter++;
-    }
+  setHost(host: Element): void {
+    this.portalHost = new DomPortalOutlet(host);
   }
 
-  detach() {
-    if (this.portalHost) {
-      this.portalHost.detach();
+  addPortal(
+    template: TemplateRef<unknown>,
+    viewContainerRef: ViewContainerRef,
+    injector?: Injector
+  ): void {
+    // if (portal instanceof DomPortal) {
+    //   this.addDomPortal(portal);
+    // }
+    console.log(template, viewContainerRef);
+    // const portal = new DomPortal(element);
+    // this.portalHost.attachTemplatePortal(this.portal);
+    const portal = new TemplatePortal(
+      template,
+      viewContainerRef,
+      null,
+      injector
+    );
+    this.portalHost?.attachTemplatePortal(portal);
+  }
+
+  removePortal(portal: Portal<unknown>): void {
+    console.log(this.portals);
+
+    if (portal instanceof DomPortal) {
+      this.removeDomPortal(portal);
     }
+    console.log(this.portals);
+  }
+
+  private addDomPortal(portal: DomPortal, injector: Injector): void {
+    // if (
+    //   !!this.portals.find(
+    //     (item) => (item as DomPortal).element === portal.element
+    //   )
+    // ) {
+    //   return;
+    // }
+    // this.portals.push(portal);
+    // this.emitMapAsArray();
+  }
+
+  private removeDomPortal(portal: DomPortal): void {
+    this.portals = this.portals.filter(
+      (item) => (item as DomPortal).element !== portal.element
+    );
+    this.emitMapAsArray();
+  }
+
+  private emitMapAsArray(): void {
+    this.portalsSubject.next(this.portals);
   }
 }
