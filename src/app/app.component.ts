@@ -6,6 +6,7 @@ import { MockComponent } from './components/mock/mock.component';
 import { PortalService } from './services/portal.service';
 import { PortalsHostComponent } from './portals/portals-host/portals-host.component';
 import { PortalsTestComponent } from './components/portals-test/portals-test.component';
+import { DropdownTestComponent } from './dropdown/dropdown-test/dropdown-test.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { PortalsTestComponent } from './components/portals-test/portals-test.com
     MockComponent,
     PortalsHostComponent,
     PortalsTestComponent,
+    DropdownTestComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
