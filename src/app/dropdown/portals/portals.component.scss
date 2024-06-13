@@ -1,0 +1,14 @@
+.root {
+  position: relative;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.portals {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+}

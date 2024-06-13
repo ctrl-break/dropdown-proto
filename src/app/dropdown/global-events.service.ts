@@ -5,13 +5,15 @@ import { fromEvent, share, throttleTime } from 'rxjs';
   providedIn: 'root',
 })
 export class GlobalEventsService {
+  delayTime = 300;
+
   public documentClick$ = fromEvent(document, 'click').pipe(share());
   public windowResize$ = fromEvent(window, 'resize').pipe(
-    throttleTime(500),
+    throttleTime(this.delayTime),
     share()
   );
   public documentScroll$ = fromEvent(document, 'scroll').pipe(
-    throttleTime(300),
+    throttleTime(this.delayTime),
     share()
   );
 }

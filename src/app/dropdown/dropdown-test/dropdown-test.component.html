@@ -32,3 +32,28 @@
     voluptatem architecto.
   </div>
 </div>
+
+<div class="lorem">
+  <div>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure neque soluta
+    pariatur sed illo facilis expedita veritatis molestiae cum quam omnis, magni
+    eaque qui sequi. Laboriosam quibusdam maiores molestiae dolor!
+  </div>
+  <div>
+    Enim eum perferendis ea doloribus excepturi inventore error sed! In officiis
+    beatae, est aspernatur exercitationem repellat, corporis voluptatum illum
+    quibusdam eos harum veniam ad ratione esse voluptas mollitia dolorem porro?
+  </div>
+
+  <button [appDropdown]="target3">test</button>
+
+  <ng-template #target3 let-close>
+    <app-list (close)="close()"></app-list>
+  </ng-template>
+  <div>
+    Aperiam, numquam qui sequi ducimus quibusdam error maiores cupiditate
+    voluptate corporis. Adipisci, doloremque, eum ex aut quod quisquam itaque
+    facere perferendis temporibus qui fuga beatae hic delectus, consequatur
+    voluptatem architecto.
+  </div>
+</div>

@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlobalEventsService } from 'src/app/services/global-events.service';
+import { GlobalEventsService } from 'src/app/dropdown/global-events.service';
 import { delay, distinctUntilChanged, filter, map, startWith, tap } from 'rxjs';
 import { DomPortal } from '@angular/cdk/portal';
 import { PortalService } from 'src/app/services/portal.service';

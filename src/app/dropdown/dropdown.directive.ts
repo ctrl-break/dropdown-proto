@@ -1,6 +1,4 @@
 import {
-  AfterViewInit,
-  Component,
   ComponentRef,
   Directive,
   ElementRef,
@@ -11,52 +9,49 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import { GlobalEventsService } from '../services/global-events.service';
+import { GlobalEventsService } from './global-events.service';
 import {
   BehaviorSubject,
   Observable,
   combineLatest,
   distinctUntilChanged,
-  filter,
-  fromEvent,
   map,
   skip,
   startWith,
-  tap,
 } from 'rxjs';
 import { DropdownWrapperComponent } from './dropdown-wrapper/dropdown-wrapper.component';
+import { PortalsService } from './portals.service';
+import { DropdownService } from './dropdown.service';
 
-const DEFAULT_TARGET_DATA: DropdownData = {
+const DEFAULT_TARGET_DATA: DropdownTarget = {
   targetTemplate: null,
   targetContext: null,
   targetElement: null,
   position: null,
-  isOpen: false,
 };
 
-export interface DropdownData {
+export interface DropdownTarget {
   targetTemplate: TemplateRef<unknown> | null;
   targetContext: any;
   targetElement: ElementRef | null;
-  position: DOMRect | null;
-  isOpen: boolean;
+  position: any;
 }
 
 @Directive({
   selector: '[appDropdown]',
   standalone: true,
 })
-export class DropdownDirective implements AfterViewInit, OnDestroy {
+export class DropdownDirective implements OnDestroy {
   @Input('appDropdown') targetTemplateRef: TemplateRef<any> | null = null;
 
   hostElement: ElementRef = inject(ElementRef);
-  vcr = inject(ViewContainerRef);
   globalEvents = inject(GlobalEventsService);
+  portals = inject(PortalsService);
+  vcr = inject(ViewContainerRef);
 
-  targetSubject: BehaviorSubject<DropdownData> =
-    new BehaviorSubject<DropdownData>({ ...DEFAULT_TARGET_DATA });
-
-  target$: Observable<DropdownData> = this.targetSubject.asObservable();
+  targetSubject: BehaviorSubject<DropdownTarget> =
+    new BehaviorSubject<DropdownTarget>({ ...DEFAULT_TARGET_DATA });
+  target$: Observable<DropdownTarget> = this.targetSubject.asObservable();
   component: ComponentRef<DropdownWrapperComponent> | null = null;
 
   handleClicks$ = combineLatest([
@@ -78,10 +73,6 @@ export class DropdownDirective implements AfterViewInit, OnDestroy {
       isOpen ? this.openDropdown() : this.closeDropdown();
     });
 
-  ngAfterViewInit(): void {
-    console.log(this.hostElement);
-  }
-
   ngOnDestroy(): void {
     this.targetSubject.complete();
     this.handleClicks$.unsubscribe();
@@ -94,7 +85,7 @@ export class DropdownDirective implements AfterViewInit, OnDestroy {
   }
 
   closeDropdown() {
-    this.component?.destroy();
+    this.portals.remove(this.component);
     this.targetSubject.next({ ...DEFAULT_TARGET_DATA });
   }
 
@@ -102,21 +93,24 @@ export class DropdownDirective implements AfterViewInit, OnDestroy {
     const injector = Injector.create({
       providers: [{ provide: 'targetData', useValue: this.targetSubject }],
     });
-    this.component = this.vcr.createComponent(DropdownWrapperComponent, {
-      injector,
-    });
+    this.component = this.portals.add(DropdownWrapperComponent, injector);
   }
 
   sendTargetToWrapper() {
-    const ctx = {
+    const context = {
       $implicit: () => this.closeDropdown(),
     };
     this.targetSubject.next({
       targetTemplate: this.targetTemplateRef,
-      targetContext: ctx,
+      targetContext: context,
       targetElement: null,
-      position: this.hostElement.nativeElement.getBoundingClientRect(),
-      isOpen: true,
+      position: DropdownService.getPosition(
+        this.hostElement.nativeElement.getBoundingClientRect()
+      ),
     });
+  }
+
+  setTargetPosition(pos: any) {
+    this.targetSubject.next({ ...this.targetSubject.value, position: pos });
   }
 }
