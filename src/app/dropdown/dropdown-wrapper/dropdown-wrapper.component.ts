@@ -34,6 +34,5 @@ export class DropdownWrapperComponent implements AfterViewInit {
       ...current,
       targetElement: this.targetWrapper,
     });
-    console.log(this.dropdownTarget$.value);
   }
 }

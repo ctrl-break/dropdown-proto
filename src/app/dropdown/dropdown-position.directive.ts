@@ -2,46 +2,56 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
+  OnDestroy,
   inject,
 } from '@angular/core';
-
-export interface DropdownCoords {
-  top: number;
-  left: number;
-  right: number;
-  bottom: number;
-  width: number;
-  height: number;
-}
+import { DropdownDirective } from './dropdown.directive';
+import { DROPDOWN_MARGIN_PX } from './dropdown.constants';
+import { DropdownAbsolutePosition } from './dropdown.models';
+import { GlobalEventsService } from './global-events.service';
 
 @Directive({
   selector: '[appDropdownPosition]',
   standalone: true,
 })
-export class DropdownPositionDirective implements OnInit, OnChanges {
-  @Input('hostPosition') hostPosition: DOMRect | null = null;
+export class DropdownPositionDirective implements AfterViewInit, OnDestroy {
+  dropdown = inject(DropdownDirective);
+  hostElement: ElementRef = inject(ElementRef);
 
-  @Output('setTargetPosition') setTargetPosition = new EventEmitter();
+  windowResize$ = inject(GlobalEventsService).windowResize$.subscribe(() =>
+    this.setTargetPosition()
+  );
 
-  ngOnInit(): void {
-    console.log(this.hostPosition);
+  ngAfterViewInit(): void {
+    this.setTargetPosition();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    if (changes['hostPosition']) {
-      this.getPosition(changes['hostPosition'].currentValue);
-    }
+  ngOnDestroy(): void {
+    this.windowResize$?.unsubscribe();
   }
 
-  getPosition(domRect: DOMRect) {
-    console.log(domRect);
-    this.setTargetPosition.emit(domRect);
+  getCoords(hostRect: DOMRect) {
+    return {
+      top: hostRect.top + window.scrollY,
+      right: hostRect.right + window.scrollX,
+      bottom: hostRect.bottom + window.scrollY,
+      left: hostRect.left + window.scrollX,
+    };
+  }
+
+  getPosition(hostRect: DOMRect): DropdownAbsolutePosition {
+    const pos = this.getCoords(hostRect);
+    return {
+      position: 'absolute',
+      top: pos.top + DROPDOWN_MARGIN_PX + 'px',
+      left: pos.left + 'px',
+    };
+  }
+
+  setTargetPosition() {
+    const pos = this.getPosition(
+      this.hostElement.nativeElement.getBoundingClientRect()
+    );
+    this.dropdown.setTargetPosition(pos);
   }
 }

@@ -15,7 +15,6 @@ export class PortalsService {
 
   setHost(container: ViewContainerRef): void {
     this.portalHost = container;
-    console.log(this.portalHost);
   }
 
   add<T>(comp: Type<T>, injector?: Injector): ComponentRef<T> {

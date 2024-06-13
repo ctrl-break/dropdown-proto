@@ -13,8 +13,9 @@ import { GlobalEventsService } from './global-events.service';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DropdownWrapperComponent } from './dropdown-wrapper/dropdown-wrapper.component';
 import { PortalsService } from './portals.service';
-import { DropdownService } from './dropdown.service';
 import { DropdownTriggerDirective } from './dropdown-trigger.directive';
+import { DropdownPositionDirective } from './dropdown-position.directive';
+import { DropdownAbsolutePosition } from './dropdown.models';
 
 const DEFAULT_TARGET_DATA: DropdownTarget = {
   targetTemplate: null,
@@ -34,6 +35,7 @@ export interface DropdownTarget {
   selector: '[appDropdown]',
   standalone: true,
   hostDirectives: [
+    DropdownPositionDirective,
     {
       directive: DropdownTriggerDirective,
       inputs: ['appDropdownTrigger'],
@@ -56,6 +58,8 @@ export class DropdownDirective implements OnDestroy {
 
   visibilityHandler: Observable<boolean> | null = null;
   visibilityHandler$: Subscription | null = null;
+
+  position: DropdownAbsolutePosition | null = null;
 
   ngOnDestroy(): void {
     this.targetSubject.complete();
@@ -91,9 +95,7 @@ export class DropdownDirective implements OnDestroy {
       targetTemplate: this.targetTemplateRef,
       targetContext: context,
       targetElement: null,
-      position: DropdownService.getPosition(
-        this.hostElement.nativeElement.getBoundingClientRect()
-      ),
+      position: this.position,
     });
   }
 
@@ -112,7 +114,8 @@ export class DropdownDirective implements OnDestroy {
     });
   }
 
-  setTargetPosition(pos: any) {
+  setTargetPosition(pos: DropdownAbsolutePosition) {
+    this.position = pos;
     this.targetSubject.next({ ...this.targetSubject.value, position: pos });
   }
 }
