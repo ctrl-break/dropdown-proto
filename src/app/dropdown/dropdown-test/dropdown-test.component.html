@@ -45,7 +45,7 @@
     quibusdam eos harum veniam ad ratione esse voluptas mollitia dolorem porro?
   </div>
 
-  <button [appDropdown]="target3">test</button>
+  <button [appDropdown]="target3" appDropdownTrigger="hover">test</button>
 
   <ng-template #target3 let-close>
     <app-list (close)="close()"></app-list>

@@ -10,18 +10,11 @@ import {
   inject,
 } from '@angular/core';
 import { GlobalEventsService } from './global-events.service';
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  skip,
-  startWith,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DropdownWrapperComponent } from './dropdown-wrapper/dropdown-wrapper.component';
 import { PortalsService } from './portals.service';
 import { DropdownService } from './dropdown.service';
+import { DropdownTriggerDirective } from './dropdown-trigger.directive';
 
 const DEFAULT_TARGET_DATA: DropdownTarget = {
   targetTemplate: null,
@@ -40,9 +33,16 @@ export interface DropdownTarget {
 @Directive({
   selector: '[appDropdown]',
   standalone: true,
+  hostDirectives: [
+    {
+      directive: DropdownTriggerDirective,
+      inputs: ['appDropdownTrigger'],
+    },
+  ],
 })
 export class DropdownDirective implements OnDestroy {
   @Input('appDropdown') targetTemplateRef: TemplateRef<any> | null = null;
+  @Input('appDropdownTrigger') appDropdownTrigger: 'click' | 'hover' = 'click';
 
   hostElement: ElementRef = inject(ElementRef);
   globalEvents = inject(GlobalEventsService);
@@ -54,28 +54,12 @@ export class DropdownDirective implements OnDestroy {
   target$: Observable<DropdownTarget> = this.targetSubject.asObservable();
   component: ComponentRef<DropdownWrapperComponent> | null = null;
 
-  handleClicks$ = combineLatest([
-    this.globalEvents.documentClick$,
-    this.target$,
-  ])
-    .pipe(
-      map(([event, target]) => {
-        return (
-          this.hostElement.nativeElement.contains(event.target) ||
-          target?.targetElement?.nativeElement.contains(event.target)
-        );
-      }),
-      startWith(false),
-      skip(1),
-      distinctUntilChanged()
-    )
-    .subscribe((isOpen) => {
-      isOpen ? this.openDropdown() : this.closeDropdown();
-    });
+  visibilityHandler: Observable<boolean> | null = null;
+  visibilityHandler$: Subscription | null = null;
 
   ngOnDestroy(): void {
     this.targetSubject.complete();
-    this.handleClicks$.unsubscribe();
+    this.visibilityHandler$?.unsubscribe();
     this.component?.destroy();
   }
 
@@ -87,6 +71,9 @@ export class DropdownDirective implements OnDestroy {
   closeDropdown() {
     this.portals.remove(this.component);
     this.targetSubject.next({ ...DEFAULT_TARGET_DATA });
+    if (this.appDropdownTrigger === 'hover') {
+      this.subscribeToVisibilityHandler();
+    }
   }
 
   createComponent() {
@@ -107,6 +94,21 @@ export class DropdownDirective implements OnDestroy {
       position: DropdownService.getPosition(
         this.hostElement.nativeElement.getBoundingClientRect()
       ),
+    });
+  }
+
+  setVisibilityHandler(visibilityHandler: Observable<boolean>) {
+    this.visibilityHandler = visibilityHandler;
+    this.subscribeToVisibilityHandler();
+  }
+
+  subscribeToVisibilityHandler() {
+    if (!this.visibilityHandler) {
+      return;
+    }
+    this.visibilityHandler$?.unsubscribe();
+    this.visibilityHandler$ = this.visibilityHandler.subscribe((isOpen) => {
+      isOpen ? this.openDropdown() : this.closeDropdown();
     });
   }
 
