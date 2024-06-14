@@ -7,12 +7,19 @@
   <button (click)="close()">close</button>
 </ng-template>
 
-<div class="lorem">
+<div class="lorem" style="text-align: center">
   <div>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure neque soluta
     pariatur sed illo facilis expedita veritatis molestiae cum quam omnis, magni
     eaque qui sequi. Laboriosam quibusdam maiores molestiae dolor!
   </div>
+
+  <button [appDropdown]="target4">test</button>
+
+  <ng-template #target4 let-close>
+    <app-list (close)="close()"></app-list>
+  </ng-template>
+
   <div>
     Enim eum perferendis ea doloribus excepturi inventore error sed! In officiis
     beatae, est aspernatur exercitationem repellat, corporis voluptatum illum
