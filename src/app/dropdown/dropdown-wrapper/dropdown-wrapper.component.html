@@ -1,12 +1,10 @@
-<div class="dropdown-wrapper" #wrapper>
-  <ng-container *ngIf="dropdownTarget$ | async as dropdownTarget">
+<ng-container *ngIf="dropdownTarget$ | async as dropdownTarget">
+  <div class="dropdown-wrapper" #wrapper [ngStyle]="dropdownTarget.position">
     <ng-container *ngIf="dropdownTarget.targetTemplate">
-      <div class="dropdown" [ngStyle]="dropdownTarget.position">
-        <ng-template
-          [ngTemplateOutlet]="dropdownTarget.targetTemplate"
-          [ngTemplateOutletContext]="dropdownTarget.targetContext"
-        ></ng-template>
-      </div>
+      <ng-template
+        [ngTemplateOutlet]="dropdownTarget.targetTemplate"
+        [ngTemplateOutletContext]="dropdownTarget.targetContext"
+      ></ng-template>
     </ng-container>
-  </ng-container>
-</div>
+  </div>
+</ng-container>

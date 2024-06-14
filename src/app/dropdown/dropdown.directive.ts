@@ -2,6 +2,7 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  HostListener,
   Injector,
   Input,
   OnDestroy,
@@ -61,6 +62,11 @@ export class DropdownDirective implements OnDestroy {
 
   position: DropdownAbsolutePosition | null = null;
 
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.component && this.closeDropdown();
+  }
+
   ngOnDestroy(): void {
     this.targetSubject.complete();
     this.visibilityHandler$?.unsubscribe();
@@ -75,9 +81,7 @@ export class DropdownDirective implements OnDestroy {
   closeDropdown() {
     this.portals.remove(this.component);
     this.targetSubject.next({ ...DEFAULT_TARGET_DATA });
-    if (this.appDropdownTrigger === 'hover') {
-      this.subscribeToVisibilityHandler();
-    }
+    this.subscribeToVisibilityHandler();
   }
 
   createComponent() {

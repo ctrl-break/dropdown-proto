@@ -18,7 +18,7 @@ import { DropdownTarget } from '../dropdown.directive';
   providers: [],
 })
 export class DropdownWrapperComponent implements AfterViewInit {
-  @ViewChild('wrapper', { static: true }) targetWrapper!: ElementRef;
+  @ViewChild('wrapper') targetWrapper!: ElementRef;
 
   dropdownTarget$: BehaviorSubject<DropdownTarget>;
 

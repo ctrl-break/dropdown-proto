@@ -1,9 +1,17 @@
-import { AfterViewInit, Directive, Input, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  Input,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { DropdownDirective, DropdownTarget } from './dropdown.directive';
 import { GlobalEventsService } from './global-events.service';
 import {
   Observable,
+  Subscription,
   combineLatest,
+  debounceTime,
   delay,
   distinctUntilChanged,
   filter,
@@ -19,16 +27,24 @@ import {
   selector: '[appDropdownTrigger]',
   standalone: true,
 })
-export class DropdownTriggerDirective implements AfterViewInit {
+export class DropdownTriggerDirective implements AfterViewInit, OnDestroy {
   @Input('appDropdownTrigger') appDropdownTrigger: 'click' | 'hover' = 'click';
 
   dropdown = inject(DropdownDirective);
   globalEvents = inject(GlobalEventsService);
 
   visibilityHandler$: Observable<boolean> | undefined;
+  intersectionObserver: IntersectionObserver | undefined;
+  target$: Subscription | undefined;
 
   ngAfterViewInit(): void {
     this.setVisibilityHandler();
+    this.setIntersectionObserver();
+  }
+
+  ngOnDestroy(): void {
+    this.target$?.unsubscribe();
+    this.intersectionObserver?.disconnect();
   }
 
   setVisibilityHandler() {
@@ -106,5 +122,33 @@ export class DropdownTriggerDirective implements AfterViewInit {
 
   emitHandlerToParent(visibilityHandler: Observable<boolean>) {
     this.dropdown.setVisibilityHandler(visibilityHandler);
+  }
+
+  setIntersectionObserver() {
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting === false) {
+          this.dropdown.closeDropdown();
+        }
+      },
+      {
+        threshold: 0.5,
+      }
+    );
+
+    this.target$ = this.dropdown.target$
+      .pipe(
+        debounceTime(300),
+        map(({ targetElement }) => targetElement),
+        distinctUntilChanged()
+      )
+      .subscribe((target) => {
+        if (!target) {
+          this.intersectionObserver!.disconnect();
+          return;
+        }
+        this.intersectionObserver!.observe(target?.nativeElement);
+      });
   }
 }
