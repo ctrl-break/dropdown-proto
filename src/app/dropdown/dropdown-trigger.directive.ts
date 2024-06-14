@@ -5,7 +5,7 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
-import { DropdownDirective, DropdownTarget } from './dropdown.directive';
+import { DropdownDirective } from './dropdown.directive';
 import { GlobalEventsService } from './global-events.service';
 import {
   Observable,
@@ -22,6 +22,7 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
+import { DropdownTarget } from './dropdown.models';
 
 @Directive({
   selector: '[appDropdownTrigger]',
@@ -57,6 +58,10 @@ export class DropdownTriggerDirective implements AfterViewInit, OnDestroy {
     }
 
     this.setHoverHandler();
+  }
+
+  emitHandlerToParent(visibilityHandler: Observable<boolean>) {
+    this.dropdown.setVisibilityHandler(visibilityHandler);
   }
 
   /* CLICK */
@@ -120,10 +125,7 @@ export class DropdownTriggerDirective implements AfterViewInit, OnDestroy {
     this.emitHandlerToParent(this.visibilityHandler$);
   }
 
-  emitHandlerToParent(visibilityHandler: Observable<boolean>) {
-    this.dropdown.setVisibilityHandler(visibilityHandler);
-  }
-
+  /* Intersection Observer */
   setIntersectionObserver() {
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {

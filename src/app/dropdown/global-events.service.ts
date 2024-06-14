@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { debounceTime, fromEvent, share, tap, throttleTime } from 'rxjs';
-import { DROPDOWN_DEBOUNCE_TIME } from './dropdown.constants';
+import { DROPDOWN_DEBOUNCE_TIME } from './constants';
 
 @Injectable({
   providedIn: 'root',

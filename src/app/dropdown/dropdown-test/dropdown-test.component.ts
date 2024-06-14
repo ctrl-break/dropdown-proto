@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownWrapperComponent } from '../dropdown-wrapper/dropdown-wrapper.component';
 import { DropdownDirective } from '../dropdown.directive';
-import { ListComponent } from '../list/list.component';
+import { ListComponent } from './list/list.component';
 import { DropdownTriggerDirective } from '../dropdown-trigger.directive';
 
 @Component({

@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { DropdownTarget } from '../dropdown.directive';
 import { fadeInOut } from '../animation';
+import { DropdownTarget } from '../dropdown.models';
 
 @Component({
   selector: 'app-dropdown-wrapper',

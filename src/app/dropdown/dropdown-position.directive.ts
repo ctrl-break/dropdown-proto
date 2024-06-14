@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { DropdownDirective } from './dropdown.directive';
-import { DROPDOWN_MARGIN_PX } from './dropdown.constants';
+import { DROPDOWN_MARGIN_PX } from './constants';
 import { DropdownAbsolutePosition } from './dropdown.models';
 import { GlobalEventsService } from './global-events.service';
 

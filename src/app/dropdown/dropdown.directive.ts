@@ -16,21 +16,8 @@ import { DropdownWrapperComponent } from './dropdown-wrapper/dropdown-wrapper.co
 import { PortalsService } from './portals.service';
 import { DropdownTriggerDirective } from './dropdown-trigger.directive';
 import { DropdownPositionDirective } from './dropdown-position.directive';
-import { DropdownAbsolutePosition } from './dropdown.models';
-
-const DEFAULT_TARGET_DATA: DropdownTarget = {
-  targetTemplate: null,
-  targetContext: null,
-  targetElement: null,
-  position: null,
-};
-
-export interface DropdownTarget {
-  targetTemplate: TemplateRef<unknown> | null;
-  targetContext: any;
-  targetElement: ElementRef | null;
-  position: any;
-}
+import { DropdownAbsolutePosition, DropdownTarget } from './dropdown.models';
+import { DEFAULT_TARGET_DATA } from './constants';
 
 @Directive({
   selector: '[appDropdown]',
@@ -92,12 +79,9 @@ export class DropdownDirective implements OnDestroy {
   }
 
   sendTargetToWrapper() {
-    const context = {
-      $implicit: () => this.closeDropdown(),
-    };
     this.targetSubject.next({
       targetTemplate: this.targetTemplateRef,
-      targetContext: context,
+      targetContext: { $implicit: () => this.closeDropdown() },
       targetElement: null,
       position: this.position,
     });
