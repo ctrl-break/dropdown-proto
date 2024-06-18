@@ -16,14 +16,20 @@ import { DropdownWrapperComponent } from './dropdown-wrapper/dropdown-wrapper.co
 import { PortalsService } from './portals.service';
 import { DropdownTriggerDirective } from './dropdown-trigger.directive';
 import { DropdownPositionDirective } from './dropdown-position.directive';
-import { DropdownAbsolutePosition, DropdownTarget } from './dropdown.models';
+import {
+  DropdownAbsolutePosition,
+  DropdownAbsolutePositionPx,
+  DropdownTarget,
+} from './dropdown.models';
 import { DEFAULT_TARGET_DATA } from './constants';
+import { DropdownIntersectionDirective } from './dropdown-intersection.directive';
 
 @Directive({
   selector: '[appDropdown]',
   standalone: true,
   hostDirectives: [
     DropdownPositionDirective,
+    DropdownIntersectionDirective,
     {
       directive: DropdownTriggerDirective,
       inputs: ['appDropdownTrigger'],
@@ -83,7 +89,7 @@ export class DropdownDirective implements OnDestroy {
       targetTemplate: this.targetTemplateRef,
       targetContext: { $implicit: () => this.closeDropdown() },
       targetElement: null,
-      position: this.position,
+      position: this.position ? this.convertPositionToPx(this.position) : null,
     });
   }
 
@@ -104,6 +110,19 @@ export class DropdownDirective implements OnDestroy {
 
   setTargetPosition(pos: DropdownAbsolutePosition) {
     this.position = pos;
-    this.targetSubject.next({ ...this.targetSubject.value, position: pos });
+    this.targetSubject.next({
+      ...this.targetSubject.value,
+      position: this.convertPositionToPx(pos),
+    });
+  }
+
+  convertPositionToPx(
+    pos: DropdownAbsolutePosition
+  ): DropdownAbsolutePositionPx {
+    return {
+      position: 'absolute',
+      top: pos.top + 'px',
+      left: pos.left + 'px',
+    };
   }
 }

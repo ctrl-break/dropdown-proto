@@ -63,4 +63,21 @@
     facere perferendis temporibus qui fuga beatae hic delectus, consequatur
     voluptatem architecto.
   </div>
+
+  <button [appDropdown]="target5" appDropdownTrigger="click">test</button>
+
+  <ng-template #target5 let-close>
+    <app-list (close)="close()"></app-list>
+  </ng-template>
+  <div>
+    Aperiam, numquam qui sequi ducimus quibusdam error maiores cupiditate
+    voluptate corporis. Adipisci, doloremque, eum ex aut quod quisquam itaque
+    facere perferendis temporibus qui fuga beatae hic delectus, consequatur
+    voluptatem architecto.
+  </div>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt tempore
+    est voluptas porro delectus quos magni ipsa ad? Sunt vero dolor voluptate
+    obcaecati aut vitae placeat consequuntur! Tenetur, dicta enim?
+  </div>
 </div>
